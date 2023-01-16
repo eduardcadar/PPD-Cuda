@@ -107,7 +107,6 @@ int main()
 
     auto startCPU = std::chrono::system_clock::now();
     boxBlurCPU(pImage_data, height, width, new_image_data_CPU);
-
     auto endCPU = std::chrono::system_clock::now();
     auto timeCPU = endCPU - startCPU;
     printf("time CPU = %f ms\n", chrono::duration <double, milli>(timeCPU).count());
@@ -175,12 +174,6 @@ cudaError_t blurWithCuda(const uint8* image_data, const int height, const int wi
 
     // Copy input vectors from host memory to GPU buffers.
     cudaStatus = cudaMemcpy(dev_image_data, image_data, size * sizeof(uint8), cudaMemcpyHostToDevice);
-    if (cudaStatus != cudaSuccess) {
-        fprintf(stderr, "cudaMemcpy failed!");
-        goto Error;
-    }
-
-    cudaStatus = cudaMemcpy(dev_new_image_data, new_image_data, size * sizeof(uint8), cudaMemcpyHostToDevice);
     if (cudaStatus != cudaSuccess) {
         fprintf(stderr, "cudaMemcpy failed!");
         goto Error;
